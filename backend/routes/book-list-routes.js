@@ -1,7 +1,7 @@
 const express = require('express')
+const HttpError = require('../models/http-errors')
 
 const router = express.Router()
-const HttpError = require('../models/http-errors')
 const bookList = undefined;
 
 router.get('/', async(req, res, next) => {

@@ -1,15 +1,25 @@
 const express = require('express')
+const bodyParser = require('body-parser')
+const HttpError = require('./models/http-errors')
+const instagramPhotosRoutes = require('./routes/instagram-photos-routes')
+const bookListRoutes = require('./routes/book-list-routes')
 
-const app = express();
-const port = 5000;
-const instagramPhotosRoutes = require('./routes/instagram-photos-routes');
-const bookListRoutes = require('./routes/book-list-routes');
+const port = 5000
 
+// Create an Express server
+const app = express()
+
+/*----------*/
+/*Middleware*/
+/*----------*/
+app.use(bodyParser.json())
 app.use('/api/instagram-photos', instagramPhotosRoutes)
 app.use('/api/book-list', bookListRoutes)
-
-/* Special, Error Handling, Middleware. Execute if any middleware in front
- has an error  */
+// Handle unsupported routes
+app.use((req, res, next) => {
+    throw new HttpError('Could not find this route.', 404);
+})
+// Error Handling to Execute if any middleware in front has an error
 app.use((error, req, res, next) => {
     // Check if a response has already been sent
     if(res.headerSent) {
@@ -21,5 +31,5 @@ app.use((error, req, res, next) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server is up on port ${port}`);
+    console.log(`Server is up on port ${port}`)
 })
