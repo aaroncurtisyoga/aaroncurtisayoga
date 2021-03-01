@@ -1,3 +1,4 @@
+const axios = require('axios')
 const HttpError = require('../models/http-errors')
 
 const getInstagramPhotos = async (req, res, next) => {
