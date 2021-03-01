@@ -1,9 +1,15 @@
-const getBookList = async (req, res, next) => {
-    const bookList = undefined
+const getGoogleBooks = require('../util/google-books')
 
+const getBookList = async (req, res, next) => {
+    let googleBooks
+    try {
+        googleBooks = await getGoogleBooks()
+    } catch (error) {
+        return next(error)
+    }
 
     res.json({
-        message: "Get to /book-list works"
+        ...googleBooks
     })
 }
 
