@@ -1,10 +1,14 @@
-const getGoogleBooks = require("../util/google-books");
+const Books = require("../models/google-books-schema");
+const HttpError = require("../models/http-errors");
 
 const getBookList = async (req, res, next) => {
   let googleBooks;
+
   try {
-    googleBooks = await getGoogleBooks();
-  } catch (error) {
+    googleBooks = await Books.find();
+  } catch (e) {
+    console.log(e);
+    const error = new HttpError("Error occurred trying to get books", 500);
     return next(error);
   }
 

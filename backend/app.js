@@ -1,19 +1,20 @@
 const express = require("express");
-require("./db/mongoose");
 const bodyParser = require("body-parser");
+const schedule = require("node-schedule");
 
 const HttpError = require("./models/http-errors");
 const instagramPhotosRoutes = require("./routes/instagram-photos-routes");
 const bookListRoutes = require("./routes/book-list-routes");
+const getGoogleBooks = require("./util/google-books");
+const Books = require("./models/google-books-schema");
+require("./db/mongoose");
 
 const port = process.env.PORT || 5000;
 
-// Create an Express server
+// Create Express server
 const app = express();
 
-/*----------*/
-/*Middleware*/
-/*----------*/
+// Middleware
 app.use(bodyParser.json());
 app.use("/api/instagram-photos", instagramPhotosRoutes);
 app.use("/api/book-list", bookListRoutes);
@@ -21,7 +22,7 @@ app.use("/api/book-list", bookListRoutes);
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
 });
-// Error Handling to Execute if any middleware in front has an error
+// Handle Errors thrown by middleware
 app.use((error, req, res, next) => {
   // Check if a response has already been sent
   if (res.headerSent) {
@@ -30,6 +31,15 @@ app.use((error, req, res, next) => {
   // No response sent yet, so send one now
   res.status(error.code || 500);
   res.json({ message: error.message || "An unknown error occurred" });
+});
+
+const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+  console.log(
+    `This googleBooks job was supposed to run at ${fireDate} but actually ran at ${new Date()}`
+  );
+  let googleBooks = await getGoogleBooks();
+  const googleBooksForDb = new Books(googleBooks);
+  await googleBooksForDb.save();
 });
 
 app.listen(port, () => {
