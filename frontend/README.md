@@ -1,6 +1,8 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+# Aaron Curtis Yoga
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It's the personal website for Aaron Curtis. And  explores Aaron's interests in Dev, Yoga, and life in general. If you have any questions about the code, please don't hesitate to reach out.
 
 ## Available Scripts
 
@@ -41,6 +43,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To get in touch, you can find me at  [@aaroncurtisyoga](https://www.instagram.com/aaroncurtisyoga/) and [AaronCurtisYoga.com](https://www.AaronCurtisYoga.com)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
