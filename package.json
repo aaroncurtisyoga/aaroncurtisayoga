@@ -1,0 +1,31 @@
+{
+  "name": "aaroncurtisyoga-app",
+  "version": "1.0.0",
+  "description": "App for aaroncurtisyoga.com",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-client-dependencies": "cd client && npm install",
+    "build-client": "cd client && npm run build-client",
+    "heroku-postbuild": "npm run install-client-dependencies && npm run build-client",
+    "start": "node server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon server.js\" \"npm run client\""
+  },
+  "keywords": ["Aaron Curtis", "Aaron Curtis Yoga", "ACY", "AaronCurtisYoga.com", "Aaron William Curtis"],
+  "author": "Aaron Curtis",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "concurrently": "^6.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.15",
+    "node-schedule": "^2.0.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^8.0.2",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
+  }
+}

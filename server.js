@@ -9,14 +9,16 @@ const getGoogleBooks = require("./util/google-books");
 const Books = require("./models/google-books-schema");
 require("./db/mongoose");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 // Create Express server
-const app = express();
+const server = express();
 
 // Middleware'
-app.use(bodyParser.json());
-app.use((req, res, next) => {
+server.use(bodyParser.json());
+
+// todo: If server & ui both hosted in same place, remove cors logic
+/*server.use((req, res, next) => {
   // Have server attach headers that allow client to access resources
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -25,15 +27,16 @@ app.use((req, res, next) => {
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
-});
-app.use("/api/instagram-photos", instagramPhotosRoutes);
-app.use("/api/book-list", bookListRoutes);
+});*/
+
+server.use("/api/instagram-photos", instagramPhotosRoutes);
+server.use("/api/book-list", bookListRoutes);
 // Handle unsupported routes
-app.use((req, res, next) => {
+server.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
 });
 // Handle Errors thrown by middleware
-app.use((error, req, res, next) => {
+server.use((error, req, res, next) => {
   // Check if a response has already been sent
   if (res.headerSent) {
     return next(error);
@@ -52,6 +55,11 @@ const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   await googleBooksForDb.save();
 });
 
-app.listen(port, () => {
+if(process.env.NODE_ENV === "production") {
+  // Try and put the client code into the server
+  app.use(express.static('/client/build'))
+}
+
+server.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
