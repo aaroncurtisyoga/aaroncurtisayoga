@@ -47,6 +47,11 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred" });
 });
 
+if(process.env.NODE_ENV === "production") {
+  // Try and put the client code into the server
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+}
 const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   console.log(
     `This googleBooks job was supposed to run at ${fireDate} but actually ran at ${new Date()}`
@@ -56,11 +61,7 @@ const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   await googleBooksForDb.save();
 });
 
-app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
