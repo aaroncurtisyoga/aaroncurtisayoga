@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const schedule = require("node-schedule");
+const path = require("path")
 
 const HttpError = require("./models/http-errors");
 const instagramPhotosRoutes = require("./routes/instagram-photos-routes");
@@ -12,13 +13,13 @@ require("./db/mongoose");
 const port = process.env.PORT || 8080;
 
 // Create Express server
-const server = express();
+const app = express();
 
 // Middleware'
-server.use(bodyParser.json());
+app.use(bodyParser.json());
 
 // todo: If server & ui both hosted in same place, remove cors logic
-server.use((req, res, next) => {
+app.use((req, res, next) => {
   // Have server attach headers that allow client to access resources
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -29,14 +30,14 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use("/api/instagram-photos", instagramPhotosRoutes);
-server.use("/api/book-list", bookListRoutes);
+app.use("/api/instagram-photos", instagramPhotosRoutes);
+app.use("/api/book-list", bookListRoutes);
 // Handle unsupported routes
-server.use((req, res, next) => {
+app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
 });
 // Handle Errors thrown by middleware
-server.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
   // Check if a response has already been sent
   if (res.headerSent) {
     return next(error);
@@ -55,11 +56,12 @@ const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   await googleBooksForDb.save();
 });
 
-if(process.env.NODE_ENV === "production") {
-  // Try and put the client code into the server
-  app.use(express.static('client/build'))
-}
+app.use(express.static(path.join(__dirname, 'build')));
 
-server.listen(port, () => {
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
