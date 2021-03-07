@@ -29,9 +29,14 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
+if(process.env.NODE_ENV === "production") {
+  // Try and put the client code into the server
+  app.use(express.static(path.join(__dirname, 'client/build')));
 
+}
 app.use("/api/instagram-photos", instagramPhotosRoutes);
 app.use("/api/book-list", bookListRoutes);
+
 // Handle unsupported routes
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
@@ -47,11 +52,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred" });
 });
 
-if(process.env.NODE_ENV === "production") {
-  // Try and put the client code into the server
-  app.use(express.static(path.join(__dirname, 'client/build')));
 
-}
 const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   console.log(
     `This googleBooks job was supposed to run at ${fireDate} but actually ran at ${new Date()}`
