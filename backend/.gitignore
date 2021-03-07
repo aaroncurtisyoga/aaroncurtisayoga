@@ -1,8 +1,0 @@
-#IDE Files/Settings
-.idea/
-
-#Project Dependencies
-node_modules/
-
-#Confidentiail Information
-config/
