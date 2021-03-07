@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const googleBooksSchema = new Schema({
-  kind: { type: String, required: true },
-  totalItems: { type: "Number", required: true },
+const GoogleBooksSchema = new Schema({
+  kind: String,
+  totalItems: String,
   items: [
     {
       kind: String,
@@ -32,4 +32,4 @@ const googleBooksSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("Books", googleBooksSchema);
+module.exports = mongoose.model("Books", GoogleBooksSchema);

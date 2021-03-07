@@ -18,7 +18,7 @@ const server = express();
 server.use(bodyParser.json());
 
 // todo: If server & ui both hosted in same place, remove cors logic
-/*server.use((req, res, next) => {
+server.use((req, res, next) => {
   // Have server attach headers that allow client to access resources
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -27,7 +27,7 @@ server.use(bodyParser.json());
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
-});*/
+});
 
 server.use("/api/instagram-photos", instagramPhotosRoutes);
 server.use("/api/book-list", bookListRoutes);

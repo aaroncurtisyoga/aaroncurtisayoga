@@ -10,9 +10,15 @@
     "heroku-postbuild": "npm run install-client-dependencies && npm run build-client",
     "start": "node server.js",
     "client": "cd client && npm start",
-    "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon server.js\" \"npm run client\""
+    "dev": "concurrently -n 'server,client' -c 'red,green'  \"env-cmd ./config/dev.env nodemon server.js\" \"npm run client\""
   },
-  "keywords": ["Aaron Curtis", "Aaron Curtis Yoga", "ACY", "AaronCurtisYoga.com", "Aaron William Curtis"],
+  "keywords": [
+    "Aaron Curtis",
+    "Aaron Curtis Yoga",
+    "ACY",
+    "AaronCurtisYoga.com",
+    "Aaron William Curtis"
+  ],
   "author": "Aaron Curtis",
   "license": "ISC",
   "dependencies": {
