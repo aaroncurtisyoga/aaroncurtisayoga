@@ -57,7 +57,7 @@ const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
 
 if(process.env.NODE_ENV === "production") {
   // Try and put the client code into the server
-  app.use(express.static('/client/build'))
+  app.use(express.static('client/build'))
 }
 
 server.listen(port, () => {
