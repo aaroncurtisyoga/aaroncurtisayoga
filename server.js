@@ -18,10 +18,6 @@ const app = express();
 // Middleware'
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  next();
-});
 
 if(process.env.NODE_ENV === "production") {
   // Try and put the client code into the server
