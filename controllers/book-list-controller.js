@@ -8,7 +8,7 @@ const getBookList = async (req, res, next) => {
     googleBooks = await Books.find();
   } catch (e) {
     console.log(e);
-    const error = new HttpError("Error occurred trying to get books", 500);
+    const error = new HttpError(e, 500);
     return next(error);
   }
 
