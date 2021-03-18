@@ -18,17 +18,7 @@ const app = express();
 // Middleware'
 app.use(bodyParser.json());
 
-// todo: If server & ui both hosted in same place, remove cors logic
-app.use((req, res, next) => {
-  // Have server attach headers that allow client to access resources
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  next();
-});
+
 if(process.env.NODE_ENV === "production") {
   // Try and put the client code into the server
   app.use(express.static(path.join(__dirname, 'client/build')));

@@ -11,9 +11,7 @@ const BookList: React.FC = () => {
 
   return (
     <>
-      {error && "Error!"}
-      {loading && "Loading..."}
-      {data && <p>Book Data Loaded Successfully</p>}
+      Book List Here
     </>
   );
 };
