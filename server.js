@@ -34,6 +34,7 @@ if(process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, 'client/build')));
 
 }
+
 app.use("/api/instagram-photos", instagramPhotosRoutes);
 app.use("/api/book-list", bookListRoutes);
 
@@ -41,6 +42,7 @@ app.use("/api/book-list", bookListRoutes);
 app.use((req, res, next) => {
   throw new HttpError("Could not find this route.", 404);
 });
+
 // Handle Errors thrown by middleware
 app.use((error, req, res, next) => {
   // Check if a response has already been sent
