@@ -55,13 +55,22 @@ app.use((error, req, res, next) => {
 });
 
 
-const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+// At midnight ea. day, get books from my GoogleBooksApi, and save in Mongoose
+schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   console.log(
     `This googleBooks job was supposed to run at ${fireDate} but actually ran at ${new Date()}`
   );
   let googleBooks = await getGoogleBooks();
-  const googleBooksForDb = new Books(googleBooks);
-  await googleBooksForDb.save();
+  if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
+    const googleBooksForDb = new Books(googleBooks);
+    await googleBooksForDb.save((error) => {
+      if (error) {
+        console.log(`googleBooksForDb.save() encountered an error`, error);
+      } else {
+        console.log(`googleBooksForDb.save() successful`);
+      }
+    });
+  }
 });
 
 
