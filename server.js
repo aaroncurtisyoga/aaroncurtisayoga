@@ -17,8 +17,6 @@ const app = express();
 
 // Middleware'
 app.use(bodyParser.json());
-
-
 app.use((req, res, next) => {
   // Have server attach headers that allow client to access resources
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -54,17 +52,21 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred" });
 });
 
-
-const job = schedule.scheduleJob("0 0 * * *", async function (fireDate) {
-  console.log(
-    `This googleBooks job was supposed to run at ${fireDate} but actually ran at ${new Date()}`
-  );
-  let googleBooks = await getGoogleBooks();
-  const googleBooksForDb = new Books(googleBooks);
-  await googleBooksForDb.save();
+// At midnight ea. day, get books from my GoogleBooksApi, and save in Mongoose
+schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+  console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${new Date()}`);
+  try {
+    // Overwrite existing "books" document w/ new data
+    let googleBooks = await getGoogleBooks();
+    if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
+      let booksFromDb = await Books.find();
+      booksFromDb = googleBooks;
+      await booksFromDb.save();
+    }
+  } catch (e) {
+    console.log(`Error: googleBooks scheduled job`, e);
+  }
 });
-
-
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
