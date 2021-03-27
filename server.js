@@ -56,6 +56,7 @@ app.use((error, req, res, next) => {
 schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${new Date()}`);
   try {
+    // Overwrite existing "books" document w/ new data
     let googleBooks = await getGoogleBooks();
     if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
       let booksFromDb = await Books.find();
