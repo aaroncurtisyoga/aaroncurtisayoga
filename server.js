@@ -54,14 +54,19 @@ app.use((error, req, res, next) => {
 
 // At midnight ea. day, get books from my GoogleBooksApi, and save in Mongoose
 schedule.scheduleJob("0 0 * * *", async function (fireDate) {
-  console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${new Date()}`);
+  let currentDate = new Date();
+  console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
   try {
     // Overwrite existing "books" document w/ new data
     let googleBooks = await getGoogleBooks();
     if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
-      let booksFromDb = await Books.find();
-      booksFromDb = googleBooks;
-      await booksFromDb.save();
+      Books.findOneAndUpdate({kind: "books#volumes"}, { totalItems: googleBooks.totalItems, items: googleBooks.items}, (error, data) => {
+        if(error) {
+          console.log(`googleBooks job - findOneAndUpdate error`, error);
+        } else {
+          console.log(`googleBooks job - findOneAndUpdate data saved successfully`);
+        }
+      })
     }
   } catch (e) {
     console.log(`Error: googleBooks scheduled job`, e);
