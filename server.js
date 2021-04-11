@@ -54,7 +54,7 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred" });
 });
 
-// At midnight ea. day, get books from my GoogleBooksApi, and save in Mongoose
+// Everyday at midnight, save books from  GoogleBooks in Atlas DB
 schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
   console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
@@ -76,6 +76,7 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   }
 });
 
+// Everyday at midnight, save photos from my Instagram to Atlas DB
 schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
   console.log(`instagramPhotos job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
