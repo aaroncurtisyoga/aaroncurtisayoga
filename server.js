@@ -61,6 +61,7 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   try {
     // Overwrite existing "books" document in Atlas DB w/ new data
     let googleBooks = await getGoogleBooks();
+
     if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
       Books.findOneAndUpdate({kind: "books#volumes"}, { totalItems: googleBooks.totalItems, items: googleBooks.items}, (error, data) => {
         if(error) {
@@ -79,10 +80,13 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
   console.log(`instagramPhotos job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
   try {
-    // Overwrite existing "instagramContent" document in Atlas DB w/ new data
+    // Overwrite existing "Photos" document in Atlas DB w/ new data
     let instagramPhotos = await getInstagramPhotos();
     if (instagramPhotos && instagramPhotos.hasOwnProperty("data") && instagramPhotos.data.length) {
-      Photos.findOneAndUpdate({kind: "instagram#photos"}, { totalItems: instagramPhotos.data.length, items: instagramPhotos.data}, (error, data) => {
+      Photos.findOneAndUpdate({kind: "instagram#photos"}, {
+        totalItems: instagramPhotos.data.length,
+        items: instagramPhotos.data
+      }, (error, data) => {
         if(error) {
           console.log(`instagramPhotos job - findOneAndUpdate error`, error);
         } else {
