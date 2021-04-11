@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 
 const InstagramFeedSchema = new Schema({
   kind: String,
-  data: [
+  items: [
     {
       id: String,
       caption: String,
       media_url: String
     }
-  ]
+  ],
+  totalItems: ""
 })
 
 module.exports = mongoose.model("Photos", InstagramFeedSchema)
