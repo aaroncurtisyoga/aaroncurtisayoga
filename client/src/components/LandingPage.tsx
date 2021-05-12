@@ -24,15 +24,16 @@ const LandingPage: React.FC = () => {
       <div className="content-copy">
         <div className={`name`}>Aaron Curtis</div>
         <div className={`info`}>
-          <h1 className="headline">Let's Practice</h1>
+          <h1 className="headline">Let's Practice.</h1>
           <p className="sub-headline-copy">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum
+            Hi there. Thanks for taking a minute to visit my site. I'm a
+            Software Developer in Washington D.C. And I've been practicing yoga
+            for going on 5 years now. Yoga is a great way to stay active. But
+            even more, it can be a great way to heal, build community, and come
+            back to the essentials: mind, body, and breathe. In my classes I try
+            and create a healthy, fun space where we can explore all these
+            aspects and more. If you're interested, I invite you to join so we
+            can practice, learn, and grow together. See you on the mat!
           </p>
           <div>
             {/*
