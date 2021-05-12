@@ -2,13 +2,16 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
 body {
+  font-family: "Fraunces", serif;
   margin: 0;
-  }
+}
 
 .landing-page {
   position: relative;
@@ -17,14 +20,14 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  .content-image, .content-copy {
+  .content-image,
+  .content-copy {
     position: relative;
     min-height: 50vh;
     width: 100%;
     height: auto;
     float: left;
-
-    }
+  }
   .content-image {
     .content-image-wrapper {
       background-color: #d5ddd7;
@@ -34,15 +37,15 @@ body {
       width: 100%;
       height: 100%;
       z-index: 0;
-      }
-    img {
-    width: 100%;
-    height: 100%;
-    object-position: 50% 50%;
-    object-fit: cover;
-    border: 0;
-      }
     }
+    img {
+      width: 100%;
+      height: 100%;
+      object-position: 50% 50%;
+      object-fit: cover;
+      border: 0;
+    }
+  }
   .content-copy {
     padding: 60px 20px 60px;
     text-align: left;
@@ -51,7 +54,58 @@ body {
     flex-direction: column;
     align-content: center;
     justify-content: space-between;
+    color: #444444;
+    .name {
+      font-size: 20px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 3px;
     }
+    .headline {
+      font-weight: 400;
+      line-height: 1em;
+      font-size: 85px;
+      margin: 30px 0 20px;
+      @media screen and (min-width: 768px) {
+        font-size: 100px;
+        margin: 0;
+      }
+    }
+    .sub-headline-copy {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.4em;
+      @media screen and (min-width: 768px) {
+        font-size: 18px;
+      }
+    }
+    .cta-link {
+      background-color: #444;
+      color: #ffffff;
+      border: 2px solid #444;
+      max-width: 280px;
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 15px 20px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 25px 0 40px;
+
+      &:hover:not(.disabled) {
+        background-color: #fff;
+        color: #444444;
+      }
+      &[disabled] {
+        opacity: 0.8;
+        cursor: not-allowed;
+      }
+      @media screen and (min-width: 768px) {
+        max-width: none;
+        margin: 0;
+      }
+    }
+  }
   .links {
     display: flex;
     a.link-for-svg {
@@ -70,7 +124,7 @@ body {
         height: 16px;
         fill: #444;
         text-align: left;
-        }
+      }
       &:hover {
         background-color: #444;
         border-color: #0000;
@@ -79,19 +133,18 @@ body {
           border-color: #0000;
           fill: #fff;
           transition: fill 170ms ease-in-out;
-          }
         }
       }
     }
+  }
   @media screen and (min-width: 768px) {
     position: absolute;
-    .content-image, .content-copy {
+    .content-image,
+    .content-copy {
       width: 50%;
       height: 100%;
-      }
-    .content-image {
     }
-    .content-copy{
+    .content-copy {
       padding: 40px 60px 60px 60px;
     }
   }
