@@ -7,7 +7,9 @@ const HttpError = require("./models/http-errors");
 const instagramPhotosRoutes = require("./routes/instagram-photos-routes");
 const bookListRoutes = require("./routes/book-list-routes");
 const getGoogleBooks = require("./util/google-books");
+const getInstagramPhotos = require("./util/instagram");
 const Books = require("./models/google-books-schema");
+const Photos = require("./models/instagram-feed-schema");
 require("./db/mongoose");
 
 const port = process.env.PORT || 8080;
@@ -52,13 +54,14 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || "An unknown error occurred" });
 });
 
-// At midnight ea. day, get books from my GoogleBooksApi, and save in Mongoose
+// Everyday at midnight, save books from  GoogleBooks in Atlas DB
 schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
   console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
   try {
-    // Overwrite existing "books" document w/ new data
+    // Overwrite existing "books" document in Atlas DB w/ new data
     let googleBooks = await getGoogleBooks();
+
     if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
       Books.findOneAndUpdate({kind: "books#volumes"}, { totalItems: googleBooks.totalItems, items: googleBooks.items}, (error, data) => {
         if(error) {
@@ -70,6 +73,30 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
     }
   } catch (e) {
     console.log(`Error: googleBooks scheduled job`, e);
+  }
+});
+
+// Everyday at midnight, save photos from my Instagram to Atlas DB
+schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+  let currentDate = new Date();
+  console.log(`instagramPhotos job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
+  try {
+    // Overwrite existing "Photos" document in Atlas DB w/ new data
+    let instagramPhotos = await getInstagramPhotos();
+    if (instagramPhotos && instagramPhotos.hasOwnProperty("data") && instagramPhotos.data.length) {
+      Photos.findOneAndUpdate({kind: "instagram#photos"}, {
+        totalItems: instagramPhotos.data.length,
+        items: instagramPhotos.data
+      }, (error, data) => {
+        if(error) {
+          console.log(`instagramPhotos job - findOneAndUpdate error`, error);
+        } else {
+          console.log(`instagramPhotos job - findOneAndUpdate data saved successfully`);
+        }
+      })
+    }
+  } catch (e) {
+    console.log(`Error: instagramPhotos scheduled job`, e);
   }
 });
 
