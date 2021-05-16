@@ -26,14 +26,12 @@ const LandingPage: React.FC = () => {
         <div className={`info`}>
           <h1 className="headline">Let's Practice.</h1>
           <p className="sub-headline-copy">
-            Hi there. Thanks for taking a minute to visit my site. I'm a
-            Software Developer in Washington D.C. And I've been practicing yoga
-            for going on 5 years now. Yoga is a great way to stay active. But
-            even more, it can be a great way to heal, build community, and come
-            back to the essentials: mind, body, and breathe. In my classes I try
-            and create a healthy, fun space where we can explore all these
-            aspects and more. If you're interested, I invite you to join so we
-            can practice, learn, and grow together. See you on the mat!
+            Yoga is a great way to stay active. And it can also be a great way
+            to heal, build community, and come back to the essentials: mind,
+            body, and breathe. In my classes I try and create a space where we
+            can explore these aspects in a healthy and fun way. If you're
+            interested, I invite you to join so we can practice, learn, and grow
+            together. See you on the mat!
           </p>
           <div>
             {/*

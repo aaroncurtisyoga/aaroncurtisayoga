@@ -14,12 +14,6 @@ body {
 }
 
 .landing-page {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
   .content-image,
   .content-copy {
     position: relative;
@@ -139,11 +133,11 @@ body {
     }
   }
   @media screen and (min-width: 992px) {
-    position: absolute;
+    display: flex;
+    height: 100vh;
     .content-image,
     .content-copy {
-      width: 50%;
-      height: 100%;
+      flex-grow: 1;
     }
     .content-copy {
       padding: 40px 60px 60px 60px;
