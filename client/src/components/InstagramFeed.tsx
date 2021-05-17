@@ -11,12 +11,13 @@ const InstagramFeed: React.FC = () => {
 
   const loadInstagramPhotos = useCallback(async () => {
     const data = await get();
-    if (response.ok) setPhotos(data[0].items);
+    // Store first 9 images returned from API in state
+    if (response.ok) setPhotos(data[0].items.slice(0, 9));
   }, [get, response]);
 
   useEffect(() => {
     loadInstagramPhotos();
-  }, [loadInstagramPhotos]); // componentDidMount
+  }, [loadInstagramPhotos]);
 
   return (
     <section className={`instagram-section`}>

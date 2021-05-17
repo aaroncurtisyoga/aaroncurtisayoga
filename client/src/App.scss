@@ -162,15 +162,23 @@ body {
   .photos {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    //grid-template-rows: 164px;
     column-gap: 3px;
     row-gap: 3px;
     margin: 0 auto;
     max-width: 935px;
+    @media screen and (min-width: 768px) {
+      grid-template-rows: 298px;
+    }
     .img-wrapper {
       display: block;
       width: 100%;
       overflow: hidden;
       position: relative;
+      //height: 164px;
+      @media screen and (min-width: 768px) {
+        max-height: 298px;
+      }
     }
     img {
       object-fit: cover;
