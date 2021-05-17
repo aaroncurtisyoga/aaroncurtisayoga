@@ -11,6 +11,7 @@ html {
 body {
   font-family: "Fraunces", serif;
   margin: 0;
+  color: #444444;
 }
 
 .landing-page {
@@ -48,7 +49,7 @@ body {
     flex-direction: column;
     align-content: center;
     justify-content: space-between;
-    color: #444444;
+    //color: #444444;
     .name {
       font-size: 20px;
       font-weight: 400;
@@ -141,6 +142,48 @@ body {
     }
     .content-copy {
       padding: 40px 60px 60px 60px;
+    }
+  }
+}
+
+.instagram-section {
+  padding: 30px 0;
+  @media screen and (min-width: 768px) {
+    padding: 90px 0;
+  }
+  .headline {
+    text-transform: uppercase;
+    text-align: center;
+    a {
+      text-decoration: none;
+      color: #0072ba;
+    }
+  }
+  .photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 3px;
+    row-gap: 3px;
+    margin: 0 auto;
+    max-width: 935px;
+    .img-wrapper {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    img {
+      object-fit: cover;
+      height: 100%;
+      left: 0;
+      //position: absolute;
+      top: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+    @media screen and (min-width: 768px) {
+      column-gap: 28px;
+      row-gap: 28px;
     }
   }
 }

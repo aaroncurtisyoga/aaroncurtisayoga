@@ -15,7 +15,7 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="landing-page">
+    <section className="landing-page">
       <div className="content-image">
         <div className="content-image-wrapper">
           <img src={yogaPhoto} alt="Aaron Curtis Yoga Pose" />
@@ -105,7 +105,7 @@ const LandingPage: React.FC = () => {
           </a>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
