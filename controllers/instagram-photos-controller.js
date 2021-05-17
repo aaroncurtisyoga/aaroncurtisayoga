@@ -1,17 +1,20 @@
-const axios = require('axios')
-const HttpError = require('../models/http-errors')
+const Photos = require("../models/instagram-feed-schema");
+const HttpError = require("../models/http-errors");
 
 const getInstagramPhotos = async (req, res, next) => {
-    const instagramPhotos = undefined;
-    // Throw error if req to db fails
-    if(instagramPhotos === undefined) {
-        return next(
-            new HttpError('Unable to load instagram photos', 404)
-        )
-    }
-    res.json({
-        message: "Get to /instagram-photos works"
-    })
-}
+  let photos;
+
+  try {
+    photos = await Photos.find();
+  } catch (e) {
+    console.log(e);
+    const error = new HttpError(e, 500);
+    return next(error);
+  }
+
+  res.json({
+    ...photos,
+  });
+};
 
 exports.getInstagramPhotos = getInstagramPhotos;
