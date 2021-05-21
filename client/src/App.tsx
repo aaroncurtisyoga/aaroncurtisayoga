@@ -1,13 +1,13 @@
 import React from "react";
 import LandingPage from "./components/LandingPage";
-import InstagramFeed from "./components/InstagramFeed";
 import "./App.scss";
+import BookList from "./components/BookList";
 
 function App() {
   return (
     <>
       <LandingPage />
-      <InstagramFeed />
+      <BookList />
     </>
   );
 }

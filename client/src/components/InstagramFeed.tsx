@@ -4,7 +4,7 @@ import useFetch from "use-http";
 const InstagramFeed: React.FC = () => {
   const options = {}; // these options accept all native `fetch` options
   const [photos, setPhotos] = useState([]);
-  const { loading, error, get, response } = useFetch(
+  const { get, response } = useFetch(
     `${process.env.REACT_APP_BACKEND_URL}/api/instagram-photos`,
     options
   );
