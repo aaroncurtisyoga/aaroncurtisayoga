@@ -27,6 +27,8 @@ const GoogleBooksSchema = new Schema({
       },
       saleInfo: Object,
       accessInfo: Object,
+      imageLinks: Object,
+      description: String,
     },
   ],
 });

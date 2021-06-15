@@ -1,15 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const schedule = require("node-schedule");
-const path = require("path")
+const path = require("path");
 
 const HttpError = require("./models/http-errors");
 const instagramPhotosRoutes = require("./routes/instagram-photos-routes");
 const bookListRoutes = require("./routes/book-list-routes");
 const getGoogleBooks = require("./util/google-books");
-const getInstagramPhotos = require("./util/instagram");
+// const getInstagramPhotos = require("./util/instagram");
 const Books = require("./models/google-books-schema");
-const Photos = require("./models/instagram-feed-schema");
+// const Photos = require("./models/instagram-feed-schema");
 require("./db/mongoose");
 
 const port = process.env.PORT || 8080;
@@ -23,16 +23,15 @@ app.use((req, res, next) => {
   // Have server attach headers that allow client to access resources
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   // Try and put the client code into the server
-  app.use(express.static(path.join(__dirname, 'client/build')));
-
+  app.use(express.static(path.join(__dirname, "client/build")));
 }
 
 app.use("/api/instagram-photos", instagramPhotosRoutes);
@@ -55,21 +54,34 @@ app.use((error, req, res, next) => {
 });
 
 // Everyday at midnight, save books from  GoogleBooks in Atlas DB
-schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+schedule.scheduleJob("*/1 * * * *", async function (fireDate) {
+  // schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
-  console.log(`googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
+  console.log(
+    `googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`
+  );
   try {
     // Overwrite existing "books" document in Atlas DB w/ new data
     let googleBooks = await getGoogleBooks();
-
-    if (googleBooks && googleBooks.hasOwnProperty("items") && googleBooks.items.length) {
-      Books.findOneAndUpdate({kind: "books#volumes"}, { totalItems: googleBooks.totalItems, items: googleBooks.items}, (error, data) => {
-        if(error) {
-          console.log(`googleBooks job - findOneAndUpdate error`, error);
-        } else {
-          console.log(`googleBooks job - findOneAndUpdate data saved successfully`);
+    console.log(googleBooks);
+    if (
+      googleBooks &&
+      googleBooks.hasOwnProperty("items") &&
+      googleBooks.items.length
+    ) {
+      Books.findOneAndUpdate(
+        { kind: "books#volumes" },
+        { totalItems: googleBooks.totalItems, items: googleBooks.items },
+        (error, data) => {
+          if (error) {
+            console.log(`googleBooks job - findOneAndUpdate error`, error);
+          } else {
+            console.log(
+              `googleBooks job - findOneAndUpdate data saved successfully`
+            );
+          }
         }
-      })
+      );
     }
   } catch (e) {
     console.log(`Error: googleBooks scheduled job`, e);
@@ -77,7 +89,7 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
 });
 
 // Everyday at midnight, save photos from my Instagram to Atlas DB
-schedule.scheduleJob("0 0 * * *", async function (fireDate) {
+/*schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   let currentDate = new Date();
   console.log(`instagramPhotos job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`);
   try {
@@ -98,7 +110,7 @@ schedule.scheduleJob("0 0 * * *", async function (fireDate) {
   } catch (e) {
     console.log(`Error: instagramPhotos scheduled job`, e);
   }
-});
+});*/
 
 app.listen(port, () => {
   console.log(`Server is up on port ${port}`);

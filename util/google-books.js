@@ -6,10 +6,12 @@ const favoritesBookshelfId = `0`;
 
 async function getGoogleBooks() {
   const response = await axios.get(
-    `https://www.googleapis.com/books/v1/users/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
+    // `https://www.googleapis.com/books/v1/users/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
+    `https://www.googleapis.com/books/v1/user/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
     {
       params: {
         key: process.env.GOOGLE_BOOKS_API_KEY,
+        maxResults: 10,
       },
     }
   );
