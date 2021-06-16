@@ -6,7 +6,8 @@ const path = require("path");
 const HttpError = require("./models/http-errors");
 const instagramPhotosRoutes = require("./routes/instagram-photos-routes");
 const bookListRoutes = require("./routes/book-list-routes");
-const getGoogleBooks = require("./util/google-books");
+const getFavoriteBookIds = require("./util/ids-of-favorite-books");
+const getDetailsOfFavoriteBooks = require("./util/details-of-favorite-books");
 // const getInstagramPhotos = require("./util/instagram");
 const Books = require("./models/google-books-schema");
 // const Photos = require("./models/instagram-feed-schema");
@@ -56,15 +57,22 @@ app.use((error, req, res, next) => {
 // Everyday at midnight, save books from  GoogleBooks in Atlas DB
 schedule.scheduleJob("*/1 * * * *", async function (fireDate) {
   // schedule.scheduleJob("0 0 * * *", async function (fireDate) {
-  let currentDate = new Date();
   console.log(
     `googleBooks job was supposed to run at ${fireDate}, it actually ran at ${currentDate}`
   );
+  let currentDate = new Date(),
+    idsOfFavoriteBooks,
+    detailsOfFavoriteBooks;
+
   try {
-    // Overwrite existing "books" document in Atlas DB w/ new data
-    let googleBooks = await getGoogleBooks();
-    console.log(googleBooks);
-    if (
+    idsOfFavoriteBooks = await getFavoriteBookIds();
+    detailsOfFavoriteBooks = await getDetailsOfFavoriteBooks(
+      idsOfFavoriteBooks
+    );
+    console.log(idsOfFavoriteBooks);
+    console.log(detailsOfFavoriteBooks);
+    // todo: Save detailsOfFavoriteBooks in the db
+    /*    if (
       googleBooks &&
       googleBooks.hasOwnProperty("items") &&
       googleBooks.items.length
@@ -82,7 +90,7 @@ schedule.scheduleJob("*/1 * * * *", async function (fireDate) {
           }
         }
       );
-    }
+    }*/
   } catch (e) {
     console.log(`Error: googleBooks scheduled job`, e);
   }

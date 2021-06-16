@@ -4,10 +4,9 @@ const HttpError = require("../models/http-errors");
 const googleBooksUserId = `100125469169264869995`;
 const favoritesBookshelfId = `0`;
 
-async function getGoogleBooks() {
+async function getFavoriteBooks() {
   const response = await axios.get(
-    // `https://www.googleapis.com/books/v1/users/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
-    `https://www.googleapis.com/books/v1/user/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
+    `https://www.googleapis.com/books/v1/users/${googleBooksUserId}/bookshelves/${favoritesBookshelfId}/volumes`,
     {
       params: {
         key: process.env.GOOGLE_BOOKS_API_KEY,
@@ -18,8 +17,9 @@ async function getGoogleBooks() {
   const data = response.data;
   if (!data) {
     throw new HttpError("No data returned from Google Books", 500);
+  } else {
+    return data.items.map((favoriteBook) => favoriteBook.id);
   }
-  return data;
 }
 
-module.exports = getGoogleBooks;
+module.exports = getFavoriteBooks;
